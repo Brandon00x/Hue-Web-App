@@ -1,0 +1,49 @@
+.homePage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeButtonsContainer {
+  margin-top: 10vh;
+}
+
+.homeButtons {
+  width: 100vw;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeButton {
+  margin-top: 4vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  background: none;
+  color: white;
+  width: 11vw;
+  height: 23vh;
+  border-radius: 2vw;
+  font-size: 2vw;
+  border: 2px solid white;
+}
+
+.disableScreen {
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  background: none;
+  border: none;
+  color: white;
+  background-color: red;
+  width: 100vw;
+  height: 15vh;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  font-size: 3vw;
+}
