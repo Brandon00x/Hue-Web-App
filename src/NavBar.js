@@ -176,7 +176,6 @@ export default class NavBar extends Component {
     let temp2 = [];
     let day1 = new Date().getDay();
     let day2 = new Date().getDay() + 1;
-    console.log(day1, day2);
 
     for (let i = 0; i < data.list.length; i++) {
       let date = new Date(data.list[i].dt * 1000);
