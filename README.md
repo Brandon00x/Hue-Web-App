@@ -8,8 +8,10 @@ It is designed to run on Raspberry Pi touch screens but will work on other devic
 Install:
 `npm i`
 
-Run: 
+Run Linux/Mac: 
 `npm start`
+
+Run Windows: `npm run server` and `npm run windows`
 
 ## Future Features
 

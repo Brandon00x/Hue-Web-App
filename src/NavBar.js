@@ -172,26 +172,26 @@ export default class NavBar extends Component {
       `http://api.openweathermap.org/data/2.5/forecast?lat=${this.state.lat}&lon=${this.state.lon}&appid=${this.state.apiKey}`
     );
     let data = res.data;
-
-    let day1 = [];
-    let day2 = [];
+    let temp1 = [];
+    let temp2 = [];
+    let day1 = new Date().getDay();
+    let day2 = new Date().getDay() + 1;
+    console.log(day1, day2);
 
     for (let i = 0; i < data.list.length; i++) {
       let date = new Date(data.list[i].dt * 1000);
       let temp = (((data.list[i].main.temp_max - 273.15) * 9) / 5 + 32).toFixed(
         0
       );
-      if (date.getDay() === 3) {
-        break;
-      }
-      if (date.getDay() === 1) {
-        day1.push(temp);
-      } else if (date.getDay() === 2) {
-        day2.push(temp);
+      if (date.getDay() === day1) {
+        temp1.push(temp);
+      } else if (date.getDay() === day2) {
+        temp2.push(temp);
       }
     }
-    this.dayList1Weather = Math.max(...day1) + "°F";
-    this.dayList2Weather = Math.max(...day2) + "°F";
+
+    this.dayList1Weather = Math.max(...temp1) + "°F";
+    this.dayList2Weather = Math.max(...temp2) + "°F";
 
     this.setState({
       dayList1Weather: this.dayList1Weather,
