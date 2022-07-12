@@ -19,9 +19,11 @@
   },
   "scripts": {
     "start": "node server/app.js & PORT=3085 react-scripts start ",
+    "dev": "PORT=3085 react-scripts start & nodemon server/app.js",
     "windows": "set PORT=3085 & react-scripts start",
     "server": "node server/app.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "set PORT=3085 & react-scripts start"
   },
   "eslintConfig": {
     "extends": [

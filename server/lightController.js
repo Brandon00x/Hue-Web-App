@@ -42,19 +42,41 @@ async function changeLight(lightNum, lightName, isGroup) {
 }
 
 async function getLightStatus(lightNum, isGroup) {
+  // LightNum and Group Num are Same
   const apiGroupUrl = `${hueIp}/api/${authToken}/groups/${lightNum}/`;
   const apiSingleUrl = `${hueIp}/api/${authToken}/lights/${lightNum}/`;
   let url = isGroup === true ? apiGroupUrl : apiSingleUrl;
-
   let res = await axios.get(url);
   let lightData = res.data;
+
   let lightStatus =
-    isGroup === true ? lightData.state.all_on : lightData.state.on;
+    isGroup === true
+      ? getGroupSingleLightStatus(lightData) //lightData.state.any_on
+      : lightData.state.reachable;
   return lightStatus;
+}
+
+async function getGroupSingleLightStatus(lightData) {
+  let groupStatus; // Set Status On if 1 light is on.
+
+  // Get Status of Lights in Group
+  for (let light of lightData.lights) {
+    let groupLightStatus = await getLightStatus(light, false);
+    // One or More Lights on
+    if (groupLightStatus === true) {
+      groupStatus = true;
+    }
+    // Lights are Off
+    else {
+      groupStatus = false;
+    }
+  }
+  return groupStatus;
 }
 
 async function getAllLightsStatus(lights) {
   let lightStatus = [];
+
   for (let light in lights) {
     lightNum = lights[light][0];
     isGroup = lights[light][1];
