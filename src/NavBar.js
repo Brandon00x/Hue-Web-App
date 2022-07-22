@@ -20,6 +20,7 @@ export default class NavBar extends Component {
       tempFeels: null,
       humidity: null,
       wind: null,
+      windDirection: null,
       dayList1: null,
       dayList2: null,
       day1Temp: null,
@@ -138,6 +139,7 @@ export default class NavBar extends Component {
         return data;
       })
       .then((data) => {
+        console.log(data);
         this.weatherMain = data.weather[0].main;
         //let weatherDesc = data.weather[0].description;
         this.temp = (1.8 * (data.main.temp - 273) + 32).toFixed(0) + "°F";
@@ -149,6 +151,7 @@ export default class NavBar extends Component {
           (1.8 * (data.main.feels_like - 273) + 32).toFixed(0) + "°F";
         this.humidity = data.main.humidity + "% RH";
         this.location = data.name;
+        this.windDirection = data.wind.deg;
         this.wind = data.wind.speed + " MPH";
 
         this.setState({
@@ -158,6 +161,7 @@ export default class NavBar extends Component {
           tempFeels: this.tempFeels,
           humidity: this.humidity,
           wind: this.wind,
+          windDirection: this.windDirection,
           weatherDesc: this.weatherMain,
           // weatherIcon: this.weatherIcon,
         });
@@ -226,7 +230,18 @@ export default class NavBar extends Component {
               <div className="weatherNextDays">
                 Humidity: {this.state.humidity}
               </div>
-              <div className="weatherNextDays">Wind: {this.state.wind}</div>
+              <div className="weatherNextDays">
+                Wind: {this.state.wind}
+                <div
+                  style={{
+                    transform: `rotate(${this.state.windDirection}deg)`,
+                    display: "inline-block",
+                    marginLeft: "1vw",
+                  }}
+                >
+                  {"V"}
+                </div>
+              </div>
             </div>
           </div>
         </div>

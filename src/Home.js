@@ -36,12 +36,28 @@ export default class Home extends Component {
   async getLightStatus() {
     this.res = await axios.get("/api/lightstatus");
     this.lightStatus = this.res.data;
+
     for (let i = 0; i < this.lightStatus.length; i++) {
-      if (this.lightStatus[i].on === true) {
+      // Set Status Color Green - On
+      if (
+        this.lightStatus[i].on === true &&
+        this.lightStatus[i].reachable === true
+      ) {
         document
           .getElementById(this.lightStatus[i].lightName)
           .setAttribute("style", "background-color: green");
-      } else {
+      }
+      // Set Status Color Reachable
+      else if (
+        this.lightStatus[i].reachable === true ||
+        this.lightStatus[i].reachable === "reachable"
+      ) {
+        document
+          .getElementById(this.lightStatus[i].lightName)
+          .setAttribute("style", "background-color: dodgerblue");
+      }
+      // Set Status Color Off Not Reachable
+      else {
         document
           .getElementById(this.lightStatus[i].lightName)
           .setAttribute("style", "background-color: red");

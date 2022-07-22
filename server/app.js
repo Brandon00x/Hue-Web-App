@@ -51,6 +51,14 @@ app.post("/api/lights", cors(corsOptions), async (req, res) => {
       }
     }
     let lightStatus = await changeLight(lightNum, lightName, isGroup);
+
+    console.info(
+      `Light Request Action Completed:\nLight ${lightStatus[0]}. ${
+        lightStatus[1]
+      }\nStatus: ${lightStatus[2] === true ? "On" : "Off"} Reachable: ${
+        lightStatus[2]
+      }\n`
+    );
     res.send(lightStatus);
   } catch (err) {
     console.error(err.message);

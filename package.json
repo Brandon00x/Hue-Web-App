@@ -18,7 +18,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node server/app.js & PORT=3085 react-scripts start ",
+    "start": "PORT=3085 react-scripts start & node server/app.js",
     "dev": "PORT=3085 react-scripts start & nodemon server/app.js",
     "windows": "set PORT=3085 & react-scripts start",
     "server": "node server/app.js",
