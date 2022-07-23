@@ -6,6 +6,7 @@
 .pnp.js
 /server/Private
 /src/private
+start.bat
 
 # testing
 /coverage

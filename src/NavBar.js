@@ -3,6 +3,30 @@ import axios from "axios";
 import keys from "./private/keys";
 import "./NavBar.css";
 
+const weekdays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Nov",
+  "Dec",
+];
+
 export default class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -74,29 +98,6 @@ export default class NavBar extends Component {
   }
 
   async setWeekDay() {
-    const weekdays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Nov",
-      "Dec",
-    ];
-
     let d = new Date();
     this.day = d.getDate();
     this.weekday = weekdays[d.getDay()];
@@ -139,12 +140,11 @@ export default class NavBar extends Component {
         return data;
       })
       .then((data) => {
-        console.log(data);
         this.weatherMain = data.weather[0].main;
         //let weatherDesc = data.weather[0].description;
         this.temp = (1.8 * (data.main.temp - 273) + 32).toFixed(0) + "°F";
-        this.tempMax =
-          (1.8 * (data.main.temp_max - 273) + 32).toFixed(0) + "°F";
+        // this.tempMax =
+        //   (1.8 * (data.main.temp_max - 273) + 32).toFixed(0) + "°F";
         this.tempMin =
           (1.8 * (data.main.temp_min - 273) + 32).toFixed(0) + "°F";
         this.tempFeels =
@@ -156,7 +156,6 @@ export default class NavBar extends Component {
 
         this.setState({
           temp: this.temp,
-          tempMax: this.tempMax,
           tempMin: this.tempMin,
           tempFeels: this.tempFeels,
           humidity: this.humidity,
@@ -178,17 +177,27 @@ export default class NavBar extends Component {
     let data = res.data;
     let temp1 = [];
     let temp2 = [];
-    let day1 = new Date().getDay();
-    let day2 = new Date().getDay() + 1;
+
+    let dateString = new Date().toDateString();
+    let day1 = new Date(dateString).getDay() + 1;
+    let day2 = day1 + 1;
+
+    // Adjust for Week End.
+    if (day1 === 6) {
+      day2 = 0;
+    } else if (day1 === 7) {
+      day1 = 0;
+      day2 = 1;
+    }
 
     for (let i = 0; i < data.list.length; i++) {
-      let date = new Date(data.list[i].dt * 1000);
       let temp = (((data.list[i].main.temp_max - 273.15) * 9) / 5 + 32).toFixed(
         0
       );
-      if (date.getDay() === day1) {
+
+      if (day1 === new Date(data.list[i].dt_txt).getDay()) {
         temp1.push(temp);
-      } else if (date.getDay() === day2) {
+      } else if (day2 === new Date(data.list[i].dt_txt).getDay()) {
         temp2.push(temp);
       }
     }
@@ -197,6 +206,7 @@ export default class NavBar extends Component {
     this.dayList2Weather = Math.max(...temp2) + "°F";
 
     this.setState({
+      tempMax: this.dayList1Weather,
       dayList1Weather: this.dayList1Weather,
       dayList2Weather: this.dayList2Weather,
     });
@@ -245,10 +255,10 @@ export default class NavBar extends Component {
             </div>
           </div>
         </div>
-        <span id="time">
+        <div id="time">
           {this.state.time} <br />
           {this.state.date}
-        </span>
+        </div>
       </div>
     );
   }
